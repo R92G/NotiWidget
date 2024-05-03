@@ -4,6 +4,8 @@ import "./style.css";
 // Verklaring van globale variabelen en functies
 declare var io: any;
 
+// Nieuwe edit nieuwe build?
+
 (function () {
   // Functie om de parameters van het juiste script te verkrijgen
   function getSyncScriptParams() {
