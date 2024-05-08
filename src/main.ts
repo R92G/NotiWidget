@@ -4,9 +4,11 @@ import "./style.css";
 // Verklaring van globale variabelen en functies
 declare var io: any;
 
-// Nieuwe edit nieuwe build?
-
 (function () {
+  const websiteId = getSyncScriptParams().websiteId;
+  console.log("Gebruiker geladen:", websiteId);
+  let lastLocation = window.location.pathname; // Correct gedefinieerd op het hoogste niveau binnen de IIFE
+
   // Functie om de parameters van het juiste script te verkrijgen
   function getSyncScriptParams() {
     var scripts = document.getElementsByTagName("script");
@@ -20,11 +22,6 @@ declare var io: any;
     return { websiteId: null }; // Retourneer null of een standaardwaarde als geen script het attribuut heeft
   }
 
-  // Haal gebruiker eenmalig op en gebruik deze overal
-  const websiteId = getSyncScriptParams().websiteId;
-  console.log("Gebruiker geladen:", websiteId);
-
-  // Functie om te controleren of een notificatiegebied bestaat en deze zo nodig te creëren
   function ensureNotificationArea() {
     let notificationArea = document.getElementById("notification-area");
     if (!notificationArea) {
@@ -35,17 +32,47 @@ declare var io: any;
     return notificationArea;
   }
 
-  // Functie om een notificatie te sluiten
+  (() => {
+    let oldPushState = history.pushState;
+    let oldReplaceState = history.replaceState;
+    let lastUrl = window.location.pathname + window.location.hash; // Include the hash in the URL tracking
+
+    history.pushState = function pushState() {
+      let ret = oldPushState.apply(this, arguments);
+      checkLocationChange();
+      return ret;
+    };
+
+    history.replaceState = function replaceState() {
+      let ret = oldReplaceState.apply(this, arguments);
+      checkLocationChange();
+      return ret;
+    };
+
+    window.addEventListener("popstate", () => {
+      checkLocationChange();
+    });
+
+    function checkLocationChange() {
+      let currentUrl = window.location.pathname + window.location.hash;
+      if (lastUrl !== currentUrl) {
+        lastUrl = currentUrl;
+        window.dispatchEvent(new Event("locationchange"));
+      }
+    }
+  })();
+
   function closeNotification(event: any) {
     const notification = event.target.closest(".notification");
     if (notification) {
-      notification.style.transform = "translateX(100%)"; // Schuif naar rechts uit beeld
-      setTimeout(() => notification.remove(), 500); // Verwijder de notificatie na de animatie
-      event.stopPropagation(); // Voorkom dat het event verder gaat naar hogere elementen
+      notification.style.transform = "translateX(100%)";
+      setTimeout(() => notification.remove(), 500);
+      if (event instanceof MouseEvent) {
+        event.stopPropagation();
+      }
     }
   }
 
-  // Functie om een nieuwe notificatie te tonen
   function showNotification(
     imgUrl: string,
     sender: string,
@@ -90,6 +117,9 @@ declare var io: any;
 
     notificationArea.appendChild(notification);
 
+    // log the first child of the notificationArea
+    console.log(notificationArea.firstChild);
+
     setTimeout(() => {
       closeNotification({ target: notification });
     }, showTimeInMs + delayInMs);
@@ -111,6 +141,7 @@ declare var io: any;
         delayInMs: number;
       }) {
         console.log("Notificatie ontvangen:", data);
+        ensureNotificationArea();
         showNotification(
           data.imgUrl,
           data.sender,
@@ -126,6 +157,17 @@ declare var io: any;
       socket.emit("userLocation", {
         websiteId: websiteId,
         location: window.location.pathname,
+      });
+      // Reageer op locatieveranderingen en verstuur deze naar de server
+      window.addEventListener("locationchange", function () {
+        let fullPath = window.location.pathname + window.location.hash;
+        console.log("Location changed to:", fullPath);
+        if (websiteId) {
+          socket.emit("userLocation", {
+            websiteId: websiteId,
+            location: fullPath,
+          });
+        }
       });
     });
   };
