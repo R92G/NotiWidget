@@ -4,7 +4,7 @@ import "./style.css";
 // Verklaring van globale variabelen en functies
 declare var io: any;
 
-const currentEnv = process.env.CURRENT_ENV;
+const currentEnv = "prd";
 
 (function () {
   const websiteId = getSyncScriptParams().websiteId;
