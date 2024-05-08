@@ -7,7 +7,7 @@ declare var io: any;
 (function () {
   const websiteId = getSyncScriptParams().websiteId;
   console.log("Gebruiker geladen:", websiteId);
-  let lastLocation = window.location.pathname; // Correct gedefinieerd op het hoogste niveau binnen de IIFE
+  // let lastLocation = window.location.pathname; // Correct gedefinieerd op het hoogste niveau binnen de IIFE
 
   // Functie om de parameters van het juiste script te verkrijgen
   function getSyncScriptParams() {
@@ -37,14 +37,22 @@ declare var io: any;
     let oldReplaceState = history.replaceState;
     let lastUrl = window.location.pathname + window.location.hash; // Include the hash in the URL tracking
 
-    history.pushState = function pushState() {
-      let ret = oldPushState.apply(this, arguments);
+    history.pushState = function pushState(
+      data: any,
+      title: string,
+      url?: string | URL | null
+    ) {
+      let ret = oldPushState.call(this, data, title, url);
       checkLocationChange();
       return ret;
     };
 
-    history.replaceState = function replaceState() {
-      let ret = oldReplaceState.apply(this, arguments);
+    history.replaceState = function replaceState(
+      data: any,
+      title: string,
+      url?: string | URL | null
+    ) {
+      let ret = oldReplaceState.call(this, data, title, url);
       checkLocationChange();
       return ret;
     };
