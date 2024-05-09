@@ -138,6 +138,7 @@ declare var io: any;
   script.src = "https://cdn.socket.io/4.0.0/socket.io.min.js";
   script.onload = function () {
     const socket = io("https://flexnote-server.onrender.com");
+    // "http://localhost:8080"
     socket.on(
       "notification",
       function (data: {
