@@ -4,15 +4,89 @@
 
  */
 
-// Importeer de benodigde stijlen
-import "./index.css";
-
 const isDevelopment = window.location.hostname === "localhost";
 
 // Verklaring van globale variabelen en functies
 declare var io: any;
 
 (function () {
+  // --- STYLES
+  const css = `
+  #notification-area2008 {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 1000;
+  }
+  .notification2008 .close--icon2008 {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.7rem;
+    cursor: pointer;
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+  .notification2008 {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    display: flex;
+    margin-bottom: 20px;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    cursor: pointer;
+    align-items: center;
+    touch-action: pan-x pan-y;
+  }
+  .notification2008 img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .content-wrapper2008 {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+    justify-content: center;
+    margin-left: 1rem;
+    width: 100%;
+  }
+  .notification2008 .message2008 {
+    font-size: 0.9rem;
+    text-align: left;
+    overflow-wrap: anywhere;
+  }
+  .notification2008 .sender2008 {
+    font-weight: bold;
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  .notification2008 hr {
+    width: 80%;
+    border: none;
+    border-top: 1px solid;
+  }
+`;
+
+  const styleSheet = document.createElement("style");
+  styleSheet.type = "text/css";
+  styleSheet.innerText = css;
+  document.head.appendChild(styleSheet);
+  // --- END STYLES
+
   const websiteId = getSyncScriptParams().websiteId;
   console.log("Gebruiker geladen:", websiteId);
   // let lastLocation = window.location.pathname; // Correct gedefinieerd op het hoogste niveau binnen de IIFE
