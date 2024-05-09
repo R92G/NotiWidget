@@ -81,7 +81,7 @@ declare var io: any;
   }
   @media screen and (max-width: 767px) {
     .notification2008 {
-      background-color: rgba(255, 255, 255, 0.8); 
+      background-color: rgba(255, 255, 255, 1); 
     }
   }
 `;
