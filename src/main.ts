@@ -1,5 +1,13 @@
+/**
+ * Draai eerst een build met `npm run build` om de wijzigingen in dit bestand te zien.
+ * Voer vervolgens `npm run start` uit om de server te starten en de wijzigingen in de browser te bekijken en verander render in localhost.
+
+ */
+
 // Importeer de benodigde stijlen
-import "./style.css";
+import "./index.css";
+
+const isDevelopment = window.location.hostname === "localhost";
 
 // Verklaring van globale variabelen en functies
 declare var io: any;
@@ -23,10 +31,10 @@ declare var io: any;
   }
 
   function ensureNotificationArea() {
-    let notificationArea = document.getElementById("notification-area");
+    let notificationArea = document.getElementById("notification-area2008");
     if (!notificationArea) {
       notificationArea = document.createElement("div");
-      notificationArea.id = "notification-area";
+      notificationArea.id = "notification-area2008";
       document.body.appendChild(notificationArea);
     }
     return notificationArea;
@@ -91,30 +99,30 @@ declare var io: any;
   ) {
     const notificationArea = ensureNotificationArea() as HTMLElement;
     const notification = document.createElement("div");
-    notification.className = "notification";
+    notification.className = "notification2008";
     notification.style.transform = "translateX(120%)";
     notification.style.cursor = "pointer";
     notification.innerHTML = `
       ${imgUrl ? `<img src="${imgUrl}">` : ""}
-      <div class="close--icon">
+      <div class="close--icon2008">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15">
           <path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"></path>
         </svg>
       </div>
-      <div class="content-wrapper">
-        <div class="sender">${sender}</div>
+      <div class="content-wrapper2008">
+        <div class="sender2008">${sender}</div>
         <hr/>
-        <div class="message">${message}</div>
+        <div class="message2008">${message}</div>
       </div>
     `;
 
     notification.addEventListener("click", function (event) {
-      if (!(event.target as HTMLElement).closest(".close--icon")) {
+      if (!(event.target as HTMLElement).closest(".close--icon2008")) {
         window.location.href = link; // Navigeer naar de link
       }
     });
 
-    const closeIcon = notification.querySelector(".close--icon");
+    const closeIcon = notification.querySelector(".close--icon2008");
     if (closeIcon) {
       closeIcon.addEventListener("click", closeNotification);
     }
@@ -137,8 +145,11 @@ declare var io: any;
   const script = document.createElement("script");
   script.src = "https://cdn.socket.io/4.0.0/socket.io.min.js";
   script.onload = function () {
-    const socket = io("https://flexnote-server.onrender.com");
-    // "http://localhost:8080"
+    const socket = io(
+      isDevelopment
+        ? "http://localhost:8080"
+        : "https://flexnote-server.onrender.com"
+    );
     socket.on(
       "notification",
       function (data: {
