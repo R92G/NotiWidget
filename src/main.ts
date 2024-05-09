@@ -87,7 +87,7 @@ declare var io: any;
   // --- END STYLES
 
   const websiteId = getSyncScriptParams().websiteId;
-  console.log("Gebruiker geladen:", websiteId);
+
   // let lastLocation = window.location.pathname; // Correct gedefinieerd op het hoogste niveau binnen de IIFE
 
   // Functie om de parameters van het juiste script te verkrijgen
@@ -149,7 +149,6 @@ declare var io: any;
         window.location.search +
         window.location.hash;
       if (lastUrl !== currentUrl) {
-        console.log("Location changed to:", currentUrl);
         lastUrl = currentUrl;
         window.dispatchEvent(new Event("locationchange"));
       }
@@ -211,9 +210,6 @@ declare var io: any;
 
     notificationArea.appendChild(notification);
 
-    // log the first child of the notificationArea
-    console.log(notificationArea.firstChild);
-
     setTimeout(() => {
       closeNotification({ target: notification });
     }, showTimeInMs + delayInMs);
@@ -238,7 +234,6 @@ declare var io: any;
         showTimeInMs: number;
         delayInMs: number;
       }) {
-        console.log("Notificatie ontvangen:", data);
         ensureNotificationArea();
         showNotification(
           data.imgUrl,
@@ -261,8 +256,11 @@ declare var io: any;
       });
       // Reageer op locatieveranderingen en verstuur deze naar de server
       window.addEventListener("locationchange", function () {
-        let fullPath = window.location.pathname + window.location.hash;
-        console.log("Location changed to:", fullPath);
+        let fullPath =
+          window.location.pathname +
+          window.location.search +
+          window.location.hash;
+
         if (websiteId) {
           socket.emit("userLocation", {
             websiteId: websiteId,
