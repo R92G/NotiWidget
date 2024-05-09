@@ -80,7 +80,6 @@ declare var io: any;
     border-top: 1px solid;
   }
 `;
-
   const styleSheet = document.createElement("style");
   styleSheet.type = "text/css";
   styleSheet.innerText = css;
@@ -117,7 +116,8 @@ declare var io: any;
   (() => {
     let oldPushState = history.pushState;
     let oldReplaceState = history.replaceState;
-    let lastUrl = window.location.pathname + window.location.hash; // Include the hash in the URL tracking
+    let lastUrl =
+      window.location.pathname + window.location.search + window.location.hash;
 
     history.pushState = function pushState(
       data: any,
@@ -144,8 +144,12 @@ declare var io: any;
     });
 
     function checkLocationChange() {
-      let currentUrl = window.location.pathname + window.location.hash;
+      let currentUrl =
+        window.location.pathname +
+        window.location.search +
+        window.location.hash;
       if (lastUrl !== currentUrl) {
+        console.log("Location changed to:", currentUrl);
         lastUrl = currentUrl;
         window.dispatchEvent(new Event("locationchange"));
       }
@@ -250,7 +254,10 @@ declare var io: any;
       // Stuur de gebruiker en de huidige locatie naar de server bij verbinding
       socket.emit("userLocation", {
         websiteId: websiteId,
-        location: window.location.pathname,
+        location:
+          window.location.pathname +
+          window.location.search +
+          window.location.hash,
       });
       // Reageer op locatieveranderingen en verstuur deze naar de server
       window.addEventListener("locationchange", function () {
