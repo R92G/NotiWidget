@@ -79,6 +79,11 @@ declare var io: any;
     border: none;
     border-top: 1px solid;
   }
+  @media screen and (max-width: 767px) {
+    .notification2008 {
+      background-color: rgba(255, 255, 255, 0.8); 
+    }
+  }
 `;
   const styleSheet = document.createElement("style");
   styleSheet.type = "text/css";

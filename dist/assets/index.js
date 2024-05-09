@@ -66,6 +66,11 @@
     border: none;
     border-top: 1px solid;
   }
+  @media screen and (max-width: 767px) {
+    .notification2008 {
+      background-color: rgba(255, 255, 255, 0.8); 
+    }
+  }
 `,r=document.createElement("style");r.type="text/css",r.innerText=w,document.head.appendChild(r);const l=u().websiteId;function u(){for(var t=document.getElementsByTagName("script"),e=0;e<t.length;e++)if(t[e].getAttribute("websiteId"))return{websiteId:t[e].getAttribute("websiteId")};return{websiteId:null}}function o(){let t=document.getElementById("notification-area2008");return t||(t=document.createElement("div"),t.id="notification-area2008",document.body.appendChild(t)),t}(()=>{let t=history.pushState,e=history.replaceState,h=window.location.pathname+window.location.search+window.location.hash;history.pushState=function(s,p,n){let a=t.call(this,s,p,n);return f(),a},history.replaceState=function(s,p,n){let a=e.call(this,s,p,n);return f(),a},window.addEventListener("popstate",()=>{f()});function f(){let c=window.location.pathname+window.location.search+window.location.hash;h!==c&&(h=c,window.dispatchEvent(new Event("locationchange")))}})();function i(t){const e=t.target.closest(".notification2008");e&&(e.style.transform="translateX(100%)",setTimeout(()=>e.remove(),500),t instanceof MouseEvent&&t.stopPropagation())}function d(t,e,h,f,c,s){const p=o(),n=document.createElement("div");n.className="notification2008",n.style.transform="translateX(120%)",n.style.cursor="pointer",n.innerHTML=`
       ${t?`<img src="${t}">`:""}
       <div class="close--icon2008">
