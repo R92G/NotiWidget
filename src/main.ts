@@ -4,8 +4,6 @@ import "./style.css";
 // Verklaring van globale variabelen en functies
 declare var io: any;
 
-const currentEnv = "prd";
-
 (function () {
   const websiteId = getSyncScriptParams().websiteId;
   console.log("Gebruiker geladen:", websiteId);
@@ -139,11 +137,7 @@ const currentEnv = "prd";
   const script = document.createElement("script");
   script.src = "https://cdn.socket.io/4.0.0/socket.io.min.js";
   script.onload = function () {
-    const socket = io(
-      currentEnv === "dev"
-        ? "http://localhost:8080"
-        : "https://flexnote-server.onrender.com"
-    );
+    const socket = io("https://flexnote-server.onrender.com");
     socket.on(
       "notification",
       function (data: {
