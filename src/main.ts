@@ -153,7 +153,7 @@ declare var io: any;
   })();
 
   function closeNotification(event: any) {
-    const notification = event.target.closest(".notification");
+    const notification = event.target.closest(".notification2008");
     if (notification) {
       notification.style.transform = "translateX(100%)";
       setTimeout(() => notification.remove(), 500);
