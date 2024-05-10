@@ -11,7 +11,7 @@
   
   .notification2008 {
     background-color: rgba(255, 255, 255, 0.7); /* Semi-transparante witte achtergrond */
-    backdrop-filter: blur(25px); /* Blur-effect zoals in iOS */
+    backdrop-filter: blur(45px); /* Blur-effect zoals in iOS */
     display: flex;
     padding: 12px 16px;
     border-radius: 14px;
