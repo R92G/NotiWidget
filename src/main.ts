@@ -21,70 +21,63 @@ declare var io: any;
     align-items: flex-end;
     z-index: 1000;
   }
-  .notification2008 .close--icon2008 {
-    position: absolute;
-    top: 0.7rem;
-    right: 0.7rem;
-    cursor: pointer;
-    height: 1.5rem;
-    width: 1.5rem;
-  }
+  
   .notification2008 {
-    backdrop-filter: blur(10px);
-    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparante witte achtergrond */
+    backdrop-filter: blur(10px); /* Blur-effect zoals in iOS */
     display: flex;
-    margin-bottom: 20px;
-    flex-direction: row;
-    position: relative;
+    padding: 12px 16px;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    margin-bottom: 10px;
     align-items: center;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
-    cursor: pointer;
-    align-items: center;
-    touch-action: pan-x pan-y;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    transform: translateX(100%);
   }
+  
   .notification2008 img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
     object-fit: cover;
+    margin-right: 12px;
   }
+  
   .content-wrapper2008 {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: flex-start;
-    justify-content: center;
-    margin-left: 1rem;
-    width: 100%;
+    flex-grow: 1;
   }
+  
   .notification2008 .message2008 {
     font-size: 0.9rem;
-    text-align: left;
-    overflow-wrap: anywhere;
+    color: #333; /* Donkere tekst voor goed contrast op lichte, doorzichtige achtergrond */
   }
+  
   .notification2008 .sender2008 {
-    font-weight: bold;
     font-size: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+    font-weight: bold;
+    color: #000; /* Zwart voor de afzendernaam om de leesbaarheid te verhogen */
   }
-  .notification2008 hr {
-    width: 80%;
-    border: none;
-    border-top: 1px solid;
+  
+  .notification2008 .close--icon2008 {
+    cursor: pointer;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    fill: #333; /* Icoonkleur aanpassen voor beter contrast */
   }
+  
   @media screen and (max-width: 767px) {
+    #notification-area2008 {
+      width: calc(100% - 40px); /* Aangepast voor beter beheer van schermruimte */
+    }
+  
     .notification2008 {
-      background-color: rgba(255, 255, 255, 1); 
+      width: calc(100% - 30px); /* Volledige breedte op mobiel voor betere leesbaarheid */
     }
   }
-`;
+  
+  `;
   const styleSheet = document.createElement("style");
   styleSheet.type = "text/css";
   styleSheet.innerText = css;
@@ -193,7 +186,6 @@ declare var io: any;
       </div>
       <div class="content-wrapper2008">
         <div class="sender2008">${sender}</div>
-        <hr/>
         <div class="message2008">${message}</div>
       </div>
     `;
